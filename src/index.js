@@ -1,13 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { ThemeProvider } from "@material-tailwind/react";
+import { ToastContainer } from "react-toastify";
+import store from "./redux/store";
+import { Provider } from "react-redux";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+        <ThemeProvider>
+          <App />
+          <ToastContainer />
+        </ThemeProvider>
+    </Provider>
   </React.StrictMode>
 );
 
