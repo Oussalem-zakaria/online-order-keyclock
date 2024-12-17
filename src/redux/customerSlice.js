@@ -4,7 +4,8 @@ import {
   deleteCustomer as removeCustomerAPI,
   createCustomer as addCustomerAPI,
   updateCustomer as updateCustomerAPI,
-  getCustomer as fetchCustomerById
+  getCustomer as fetchCustomerById,
+  getCustomerByEmail as fetchCustomerByEmail
 } from "../services/customersHttp";
 
 const initialState = {
@@ -21,8 +22,16 @@ export const getAllCustomers = createAsyncThunk("customers/getAllCustomers", asy
 
 export const getCustomer = createAsyncThunk(
   "customers/getCustomer",
+  async (id) => {
+    const response = await fetchCustomerById(id);
+    return response;
+  }
+);
+
+export const getCustomerByEmail = createAsyncThunk(
+  "customers/getCustomerByEmail",
   async (email) => {
-    const response = await fetchCustomerById(email);
+    const response = await fetchCustomerByEmail(email);
     return response;
   }
 );
@@ -37,9 +46,9 @@ export const deleteCustomer = createAsyncThunk(
 
 export const addCustomer = createAsyncThunk(
   "customers/addCustomer",
-  async ({ customerData, role }) => {
-    console.log("ROLE****: ", role);
-    const response = await addCustomerAPI(customerData, role);
+  async ({ customerData }) => {
+    console.log("customerData REDUX", customerData);
+    const response = await addCustomerAPI(customerData);
     return response;
   }
 );

@@ -12,6 +12,9 @@ import { deleteCustomer, getAllCustomers } from "../../../redux/customerSlice";
 import SearchAndFilter from "../../../components/common/SearchAndFilter";
 import GenericTable from "../../../components/common/GenericTable";
 import FormAddCustomer from "./FormAddCustomer";
+import {
+  Button,
+} from "@material-tailwind/react";
 
 function Customer() {
   const dispatch = useDispatch();
@@ -29,22 +32,40 @@ function Customer() {
   };
 
   useEffect(() => {
-    triggerNotification("Bienvenue sur votre tableau de bord", "info");
+    // triggerNotification("Bienvenue sur votre tableau de bord", "info");
     dispatch(getAllCustomers());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     setFilteredCustomers(customers);
     console.log("ZIKI $$$$ :", customers);
-  }, [customers]);
+  }, [customers, dispatch]);
+
+  useEffect(() => {
+    let filtered = [...customers];
+
+    if (sortBy) {
+      filtered = filtered.sort((a, b) => {
+        if (sortBy === "id") return a.id - b.id; // Tri numérique par ID
+        if (sortBy === "lastName") return a.lastName.localeCompare(b.lastName);
+        if (sortBy === "firstName") return a.firstName.localeCompare(b.firstName);
+        if (sortBy === "email") return a.email.localeCompare(b.email);
+        return 0;
+      });
+    }
+
+    setFilteredCustomers(filtered);
+  }, [sortBy, customers]);
 
   const customerColumns = [
+    { label: "ID", field: "id" },
     { label: "Nom", field: "lastName" },
     { label: "Prénom", field: "firstName" },
     { label: "Email", field: "email" },
   ];
 
   const customerData = filteredCustomers.map((customer) => ({
+    id: customer.id,
     lastName: customer.lastName,
     firstName: customer.firstName,
     email: customer.email,
@@ -57,10 +78,11 @@ function Customer() {
   }));
 
   const handleSearch = (searchTerm) => {
-    const filtered = customers.filter((customer) => {
+    const filtered = customers.filter((customer) =>
+      customer.id.toString().includes(searchTerm) || // Recherche par ID
       customer.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        customer.lastName.toLowerCase().includes(searchTerm.toLowerCase());
-    });
+      customer.lastName.toLowerCase().includes(searchTerm.toLowerCase())
+    );
     setFilteredCustomers(filtered);
   };
 
@@ -88,6 +110,16 @@ function Customer() {
         );
       });
   };
+
+  if (!customers || customers.length === 0) {
+    return (
+      <div className="flex justify-center align-middle">
+        <Button variant="text" loading={true}>
+          Loading
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -117,7 +149,7 @@ function Customer() {
                 onSearch={handleSearch}
                 onAddUser={() => setIsModalOpen(true)}
                 onSort={handleSort}
-                btnName="Ajouter un Client"
+                // btnName="Ajouter un Client"
                 sortedByColumns={customerColumns}
                 DialogSize={"xxl"}
               >

@@ -21,8 +21,8 @@ export const getAllProducts = createAsyncThunk("products/getAllProducts", async 
 
 export const getProduct = createAsyncThunk(
   "products/getProduct",
-  async (email) => {
-    const response = await fetchProductById(email);
+  async (id) => {
+    const response = await fetchProductById(id);
     return response;
   }
 );
@@ -37,18 +37,26 @@ export const deleteProduct = createAsyncThunk(
 
 export const addProduct = createAsyncThunk(
   "products/addProduct",
-  async ({ productData, role }) => {
-    console.log("ROLE****: ", role);
-    const response = await addProductAPI(productData, role);
+  async ({ productData }) => {
+    console.log("Product Data Redux: ", productData)
+    const response = await addProductAPI(productData);
     return response;
   }
 );
 
 export const updateProduct = createAsyncThunk(
   "products/updateProduct",
-  async ({ productId, productData }) => {
-    const response = await updateProductAPI(productId, productData);
-    return response;
+  async ({ productId, productData }, { rejectWithValue }) => {
+    try {
+      console.log("Product ID in Thunk: ", productId);
+      console.log("Product Data in Thunk: ", productData);
+      
+      const response = await updateProductAPI(productId, productData);
+      return response;
+    } catch (error) {
+      console.error("Error in updateProduct thunk:", error);
+      return rejectWithValue(error.response?.data || error.message);
+    }
   }
 );
 

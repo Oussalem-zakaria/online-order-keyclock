@@ -22,7 +22,7 @@ function Header({
       <div className="text-white flex justify-between w-full">
         <div>
           <h1 className="text-2xl text-white font-bold capitalize">
-            Bonjour, {currentUser.firstname + " " + currentUser.lastname}
+            Bonjour, {currentUser.firstName + " " + currentUser.lastName}
           </h1>
           <p className="text-sm">{currentUser.email}</p>
         </div>

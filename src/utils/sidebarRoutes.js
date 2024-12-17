@@ -11,25 +11,21 @@ import {
 export const adminRoutes = [
   { name: "Dashboard", href: "/admin/dashboard", icon: <FaTachometerAlt /> },
   // { name: "Utilisateurs", href: "/admin/utilisateurs", icon: <FaUsers /> },
-  { name: "Employés", href: "/admin/employes", icon: <FaUser /> },
-  { name: "Clients", href: "/admin/clients", icon: <FaUsers /> },
-  { name: "Produits", href: "/admin/produits", icon: <FaShoppingBag /> },
+  { name: "Gestion des Employés", href: "/admin/employes", icon: <FaUser /> },
+  { name: "Gestion des Clients", href: "/admin/clients", icon: <FaUsers /> },
+  { name: "Gestion des Produits", href: "/admin/produits", icon: <FaShoppingBag /> },
+  { name: "Commandes récentes", href: "/admin/orders", icon: <FaShoppingBag /> },
   {
     name: "Historique des Commandes",
-    href: "/admin/historique",
+    href: "/admin/audit",
     icon: <FaHistory />,
-  },
-  {
-    name: "Problèmes Signalés",
-    href: "/admin/problemes",
-    icon: <FaChartBar />,
   },
 ];
 
 export const employeeRoutes = [
-  { name: "Dashboard", href: "/employee/dashboard", icon: <FaTachometerAlt /> },
+  { name: "Dashboard", href: "/employee/accueil", icon: <FaTachometerAlt /> },
   {
-    name: "Commandes",
+    name: "Gestion des Commandes",
     href: "/employee/orders",
     icon: <FaShoppingBag />,
   },
@@ -39,7 +35,7 @@ export const userRoutes = [
   { name: "Accueil", href: "/", icon: <FaHome /> },
   {
     name: "Commandes",
-    href: "/user/orders",
+    href: "/user/mes-commmandes",
     icon: <FaShoppingBag />,
   },
 ];

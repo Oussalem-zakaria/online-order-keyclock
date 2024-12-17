@@ -4,16 +4,18 @@ import { FaExclamation, FaRoute, FaTruck, FaUser } from "react-icons/fa";
 import { Button } from "@material-tailwind/react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { setUser } from "../../redux/userSlice";
-import Client from "../../WebPages/Client/Client";
-import SideBar from "../../components/common/SideBar";
-import Header from "../../components/common/Header";
-import { SidebarResponsiveAdmin } from "../../components/common/SidebarResponsiveAdmin";
-import ToastMessage from "../../components/common/ToastMessage";
-import Heading from "../../components/common/Heading";
-import GenericTable from "../../components/common/GenericTable";
-import SearchAndFilter from "../../components/common/SearchAndFilter";
-import { deleteProduct, getAllProducts } from "../../redux/productsSlice";
+import { setUser } from "../../../redux/userSlice";
+import Client from "../../../WebPages/Client/Client";
+import SideBar from "../../../components/common/SideBar";
+import Header from "../../../components/common/Header";
+import { SidebarResponsiveAdmin } from "../../../components/common/SidebarResponsiveAdmin";
+import ToastMessage from "../../../components/common/ToastMessage";
+import Heading from "../../../components/common/Heading";
+import GenericTable from "../../../components/common/GenericTable";
+import SearchAndFilter from "../../../components/common/SearchAndFilter";
+import FormAddProduct from "./FormAddProduct";
+import { deleteProduct, getAllProducts } from "../../../redux/productsSlice";
+import { httpClient } from "../../../services/HttpClient";
 
 function Products() {
   const dispatch = useDispatch();
@@ -27,32 +29,78 @@ function Products() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [sortBy, setSortBy] = useState("");
 
+  const [productImages, setProductImages] = useState({});
+
   const triggerNotification = (message, type) => {
     setNotification({ message, type });
   };
 
   useEffect(() => {
-    triggerNotification("Bienvenue sur votre tableau de bord", "info");
+    // triggerNotification("Bienvenue sur votre tableau de bord", "info");
     dispatch(getAllProducts());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     setFilteredProducts(products);
     console.log("ZIKI $$$$ :", products);
+  }, [products, dispatch]);
+
+  useEffect(() => {
+    const fetchProductImages = async () => {
+      const images = await Promise.all(
+        products.map(async (product) => {
+          const imageUrl = await fetchImageForProduct(product.id);
+          return { [product.id]: imageUrl };
+        })
+      );
+      setProductImages(Object.assign({}, ...images));
+    };
+
+    if (products.length > 0) {
+      fetchProductImages();
+    }
   }, [products]);
 
+  useEffect(() => {
+    let filtered = [...products];
+    if (sortBy) {
+      filtered = filtered.sort((a, b) => {
+        if (sortBy === "name")
+          return a.name.localeCompare(b.name);
+        if (sortBy === "description")
+          return a.description.localeCompare(b.description);
+        if (sortBy === "price")
+          return Number(a.price) - Number(b.price);
+        if (sortBy === "stock_quantity")
+          return Number(a.stock_quantity) - Number(b.stock_quantity);
+        return 0;
+      });
+    }
+    setFilteredProducts(filtered);
+  }, [sortBy, products]);
+
   const productColumns = [
+    { label: "Image", field: "image" },
     { label: "Nom du produit", field: "name" },
     { label: "description", field: "description" },
     { label: "Prix", field: "price" },
     { label: "Quantité", field: "stock_quantity" },
+    { label: "Category", field: "category" },
   ];
 
   const productData = filteredProducts.map((product) => ({
+    image: (
+        <img
+          src={productImages[product.id]}
+          alt={product.name}
+          className="w-18 rounded-xl object-cover"
+        />
+    ),
     name: product.name,
     description: product.description,
     price: product.price,
     stock_quantity: product.stock_quantity,
+    category: product.category,
     data: {
       id: product.id,
       name: product.name,
@@ -61,6 +109,16 @@ function Products() {
       stock_quantity: product.stock_quantity,
     },
   }));
+
+  const fetchImageForProduct = async (productId) => {
+    try {
+      const response = await httpClient.get(`http://localhost:8765/PRODUCT/api/v1/products/product/${productId}/image`, { responseType: "blob" });
+      return URL.createObjectURL(response.data);
+    } catch (error) {
+      console.error("Error fetching image for product ID:", productId, error);
+      return "placeholder-image-url"; // Fallback in case of error
+    }
+  };
 
   const handleSearch = (searchTerm) => {
     const filtered = products.filter(
@@ -96,6 +154,16 @@ function Products() {
       });
   };
 
+  if (!products || products.length === 0) {
+    return (
+      <div className="flex justify-center align-middle">
+        <Button variant="text" loading={true}>
+          Loading
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="flex bg-gray-100">
@@ -127,7 +195,7 @@ function Products() {
                 sortedByColumns={productColumns}
                 DialogSize={"xxl"}
               >
-                {/* <FormAddDriver btnName={"Ajouter un Conducteur"} /> */}
+                 <FormAddProduct btnName={"Ajouter un Conducteur"} /> 
               </SearchAndFilter>
             </div>
             <div className="flex flex-col space-y-5 w-full bg-white px-4 py-4">
@@ -139,7 +207,7 @@ function Products() {
                   columns={productColumns}
                   data={productData}
                   // DialogContent={FormViewDriver}
-                  // FormElement={FormAddDriver}
+                  FormElement={FormAddProduct}
                   deleteHandler={handleDelete}
                 />
               ) : (

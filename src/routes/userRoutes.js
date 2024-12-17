@@ -1,21 +1,20 @@
 import { Route, Routes } from "react-router-dom";
-import Home from "../pages/Admin/Home";
-import Products from "../pages/Admin/Products";
-import Employee from "../pages/Admin/Employee";
-import OrderHistory from "../pages/Admin/OrderHistory";
+import Products from "../pages/Admin/products/Products";
+import CustomerOrders from "../pages/Customer/orders/CustomerOrders";
 import Problems from "../pages/Admin/Problems";
 import Profile from "../pages/Admin/Profile";
 import Settings from "../pages/Admin/Settings";
+import Home from "../pages/Customer/home/Home";
 
 function UserRoutes() {
   return (
     <Routes>
-      <Route path="/admin/dashboard" element={<Home />} />
-      <Route path="/admin/produits" element={<Products />} />
-      <Route path="/admin/employes" element={<Employee />} />
-      <Route path="/admin/historique" element={<OrderHistory />} />
-      <Route path="/admin/problemes" element={<Problems />} />
-      <Route path="/admin/profil" element={<Profile />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/user/accueil" element={<Home />} />
+      <Route path="/user/produits" element={<Products />} />
+      <Route path="/user/mes-commmandes" element={<CustomerOrders />} />
+      <Route path="/user/problemes" element={<Problems />} />
+      <Route path="/user/profil" element={<Profile />} />
       <Route path="/settings" element={<Settings />} />
     </Routes>
   );

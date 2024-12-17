@@ -52,14 +52,6 @@ const GenericTable = ({
     setCurrentPage(pageNumber);
   };
 
-  useEffect(() => {
-    if (currentUser) {
-      const rolePermissions = currentUser.permissions;
-      setPermissions(rolePermissions);
-    }
-    console.log("DATA *******", data);
-  }, [currentUser]);
-
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full bg-white border shadow">
@@ -88,27 +80,7 @@ const GenericTable = ({
                       key={colIndex}
                       className="px-4 py-3 whitespace-no-wrap border-b border-gray-200"
                     >
-                      {column.field === "status" ? (
-                        <span
-                          className={`relative inline-block px-3 py-1 font-medium leading-tight text-center 
-        ${
-          row.data.status === "En attente"
-            ? "text-yellow-900 bg-yellow-100"
-            : row[column.field] === "Confirmé"
-            ? "text-blue-900 bg-blue-100"
-            : row[column.field] === "Annulé"
-            ? "text-red-900 bg-red-100"
-            : row[column.field] === "Complété"
-            ? "text-green-900 bg-green-100"
-            : ""
-        } 
-        rounded-full`}
-                        >
-                          <span className="relative">{row[column.field]}</span>
-                        </span>
-                      ) : (
-                        <span>{row[column.field]}</span>
-                      )}
+                      <span>{row[column.field]}</span>
                     </td>
                   )
                 )
@@ -116,7 +88,7 @@ const GenericTable = ({
 
               <td className="px-4 py-3 whitespace-no-wrap border-b border-gray-200">
                 <div className="flex space-x-6">
-                  {/* {permissions && permissions.update && ( */}
+                  {currentUser.roles && (currentUser.roles.includes("ADMIN") || currentUser.roles.includes("EMPLOYEE")) && (
                   <div>
                     <button
                       className="text-blue-500 hover:text-blue-600"
@@ -128,7 +100,7 @@ const GenericTable = ({
                       <FaEdit />
                     </button>
                   </div>
-                  {/* )} */}
+                  )}
                   {location.pathname === "/user/reportingproblems/issues" && (
                     <div>
                       <button
@@ -142,7 +114,7 @@ const GenericTable = ({
                       </button>
                     </div>
                   )}
-                  {/* {permissions && permissions.delete && ( */}
+                  {currentUser.roles && (currentUser.roles.includes("ADMIN")) && (
                   <div>
                     <button
                       className="text-red-500 hover:text-red-600"
@@ -155,7 +127,7 @@ const GenericTable = ({
                       <FaTrash />
                     </button>
                   </div>
-                  {/* )} */}
+                  )}
                   {location.pathname === "/user/reportingproblems/issues" && (
                     <div>
                       <button
@@ -227,7 +199,7 @@ const GenericTable = ({
               </Button>
               <Button
                 variant="gradient"
-                className="bg-blue-500"
+                color="blue"
                 onClick={() => handleOpen(null)}
               >
                 <span>Confirm</span>
@@ -255,7 +227,7 @@ const GenericTable = ({
           </Button>
           <Button
             variant="gradient"
-            className="bg-blue-500"
+            color="blue"
             onClick={() => handleDelete(selectedRow)}
           >
             <span>Confirm</span>

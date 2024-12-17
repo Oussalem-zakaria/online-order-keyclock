@@ -10,14 +10,14 @@ import { Provider } from "react-redux";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
+  <React.Fragment>
     <Provider store={store}>
         <ThemeProvider>
           <App />
           <ToastContainer />
         </ThemeProvider>
     </Provider>
-  </React.StrictMode>
+  </React.Fragment>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -3,6 +3,9 @@ import settingsReducer from "./settingsSlice";
 import userReducer from "./userSlice";
 import customerReducer from "./customerSlice";
 import productReducer from "./productsSlice";
+import orderReducer from "./ordersSlice";
+import auditReducer from "./auditSlice";
+import employeeReducer from "./employeeSlice";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +13,9 @@ const store = configureStore({
     user: userReducer,
     customer: customerReducer,
     product: productReducer,
+    order: orderReducer,
+    audit: auditReducer,
+    employee: employeeReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

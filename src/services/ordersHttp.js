@@ -1,6 +1,6 @@
-import { httpClient } from "../HttpClient";
+import { httpClient } from "./HttpClient";
 
-export const getOrders = () => {
+export const getAllOrders = () => {
   return httpClient.get("http://localhost:8765/ORDER/api/v1/orders").then(
     (response) => {
       return response.data;
@@ -22,6 +22,18 @@ export const getOrder = (id) => {
   );
 };
 
+export const getOrdersByCustomer = (customerId) => {
+  console.log("customerId HTTP: ", customerId)
+  return httpClient.get(`http://localhost:8765/ORDER/api/v1/orders/customer/${customerId}`).then(
+    (response) => {
+      return response.data;
+    },
+    (error) => {
+      console.error(error);
+    }
+  );
+};
+
 export const createOrder = (order) => {
   return httpClient.post("http://localhost:8765/ORDER/api/v1/orders", order).then(
     (response) => {
@@ -33,8 +45,9 @@ export const createOrder = (order) => {
   );
 };
 
-export const updateOrder = (order) => {
-  return httpClient.put(`http://localhost:8765/ORDER/api/v1/orders/${order.id}`, order).then(
+export const updateOrder = (id, order) => {
+  console.log("ORDER HTTP :", order);
+  return httpClient.put(`http://localhost:8765/ORDER/api/v1/orders/${id}`, order).then(
     (response) => {
       return response.data;
     },

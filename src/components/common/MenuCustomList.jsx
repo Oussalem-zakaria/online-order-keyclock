@@ -31,6 +31,12 @@ export function MenuCustomList({ user, pathToProfile }) {
     keycloak.logout({ redirectUri: "http://localhost:3000/" });
   };
 
+  const openProfile = () => {
+    if(user.roles.includes("ADMIN") || user.roles.includes("EMPLOYEE")){
+      keycloak.accountManagement();
+    }
+  };
+
   useEffect(() => {
     console.log("User Roles", user.roles);
   }, [user]);
@@ -49,7 +55,7 @@ export function MenuCustomList({ user, pathToProfile }) {
             </div>
             <div className="text-white">
               <p className="font-bold capitalize">
-                {user.firstname + " " + user.lastname}
+                {user.firstName + " " + user.lastName}
               </p>
               <p className="text-sm capitalize">
                 {
@@ -83,8 +89,8 @@ export function MenuCustomList({ user, pathToProfile }) {
                 />
               </div>
               <div className="flex flex-col justify-between">
-                <p className="font-bold text-sm">
-                  {user.firstname + " " + user.lastname}
+                <p className="font-bold text-sm capitalize">
+                  {user.firstName + " " + user.lastName}
                 </p>
                 <p className="text-sm">{user.email}</p>
               </div>
@@ -93,6 +99,7 @@ export function MenuCustomList({ user, pathToProfile }) {
               <Link
                 to={pathToProfile}
                 className={`text-${primaryColor}-500 hover:underline font-bold text-sm`}
+                onClick={openProfile}
               >
                 Mon Profile
               </Link>

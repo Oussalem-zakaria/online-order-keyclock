@@ -3,14 +3,13 @@ import { useFormContext } from "react-hook-form";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 
-function Input({ name, label, type, handleChange, value, accept = null }) {
+function Input({ name, label, type, handleChange, value, accept = null, step = undefined }) {
   const {
     register,
+    setValue,
     formState: { errors },
   } = useFormContext();
-
   const primaryColor = useSelector((state) => state.settings.primaryColor);
-
   return (
     <div>
       <div className="flex items-center justify-between">
@@ -26,14 +25,13 @@ function Input({ name, label, type, handleChange, value, accept = null }) {
           id={name}
           name={name}
           type={type}
+          step={step}
           accept={accept}
           {...register(name)}
           autoComplete={`current-${name}`}
           className={`block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-${primaryColor}-500 sm:text-sm sm:leading-6 ps-3 ${
             errors[name] ? "border-red-500 ring-red-500" : ""
           }`}
-          onChange={handleChange}
-          value={value}
           placeholder={label}
         />
         {errors[name] && (

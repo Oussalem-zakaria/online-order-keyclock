@@ -33,8 +33,8 @@ function SideBar() {
     : userRoutes;
 
   const links2 = [
-    { name: "Profile", href: "/admin/profile", icon: <FaUserCircle /> },
-    { name: "Notifications", href: "/admin/notifications", icon: <FaBell /> },
+    // { name: "Profile", href: "/admin/profile", icon: <FaUserCircle /> },
+    // { name: "Notifications", href: "/admin/notifications", icon: <FaBell /> },
     {
       name: "Paramètres Système",
       href: "/admin/parametres/theme",

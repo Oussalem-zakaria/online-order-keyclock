@@ -1,8 +1,7 @@
 import { Route, Routes } from "react-router-dom";
-import Home from "../pages/Admin/Home";
-import Products from "../pages/Admin/Products";
-import Employee from "../pages/Admin/Employee";
-import OrderHistory from "../pages/Admin/OrderHistory";
+import Dashboard from "../pages/Employee/dashboard/Dashboard";
+import Products from "../pages/Admin/products/Products";
+import EmployeeOrderPage from "../pages/Employee/orders/EmployeeOrderPage";
 import Problems from "../pages/Admin/Problems";
 import Profile from "../pages/Admin/Profile";
 import Settings from "../pages/Admin/Settings";
@@ -10,13 +9,12 @@ import Settings from "../pages/Admin/Settings";
 function EmployeRoutes() {
   return (
     <Routes>
-      <Route path="/admin/dashboard" element={<Home />} />
-      <Route path="/admin/produits" element={<Products />} />
-      <Route path="/admin/employes" element={<Employee />} />
-      <Route path="/admin/historique" element={<OrderHistory />} />
-      <Route path="/admin/problemes" element={<Problems />} />
-      <Route path="/admin/profil" element={<Profile />} />
-      <Route path="/settings" element={<Settings />} />
+      <Route path="/" element={<Dashboard />} />
+      <Route path="/employee/accueil" element={<Dashboard />} />
+      <Route path="/employee/produits" element={<Products />} />
+      <Route path="/employee/orders" element={<EmployeeOrderPage />} />
+      <Route path="/employee/profil" element={<Profile />} />
+      <Route path="/employee/settings" element={<Settings />} />
     </Routes>
   );
 }

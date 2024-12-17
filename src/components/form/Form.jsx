@@ -1,18 +1,7 @@
-import React, { useEffect } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import React from 'react';
+import { FormProvider } from 'react-hook-form';
 
-function Form({ schema, onSubmit, defaultValues=[], children }) {
-
-    useEffect(() => {
-        console.log("defaultValues", defaultValues)
-    }, []);
-
-    const methods = useForm({
-        resolver: zodResolver(schema),
-        defaultValues,
-    });
-
+function Form({ schema, onSubmit, defaultValues = {}, methods, children }) {
     return (
         <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)} className='w-full'>

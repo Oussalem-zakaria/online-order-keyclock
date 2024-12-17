@@ -10,10 +10,10 @@ import {
 const initialState = {
   // currentUser: JSON.parse(localStorage.getItem("user")) || {},
   currentUser: {
+    id: null,
     email: "test@gmail.com",
-    password: "",
-    firstname: "test",
-    lastname: "test",
+    firstName: "test",
+    lastName: "test",
     roles: [
       {
         id: 1,
