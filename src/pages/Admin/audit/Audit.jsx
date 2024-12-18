@@ -93,7 +93,7 @@ function Audit() {
       });
   };
 
-  if (!audits || audits.length === 0) {
+  if (!audits) {
     return (
       <div className="flex justify-center align-middle">
         <Button variant="text" loading={true}>

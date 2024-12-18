@@ -65,7 +65,7 @@ function Employee() {
     },
   }));
 
-  if (!employees || employees.length === 0) {
+  if (!employees) {
     return (
       <div className="flex justify-center align-middle">
         <Button variant="text" loading={true}>
