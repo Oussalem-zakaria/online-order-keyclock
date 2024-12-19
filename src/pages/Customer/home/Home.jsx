@@ -172,7 +172,7 @@ function Home() {
           <div className="p-6">
             <div className="pb-8 flex justify-between">
               <div>
-                <Heading text={"Available Products"} />
+                <Heading text={"Produits disponibles"} />
               </div>
               <Button
                 variant="gradient"

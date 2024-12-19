@@ -32,9 +32,9 @@ export function MenuCustomList({ user, pathToProfile }) {
   };
 
   const openProfile = () => {
-    if(user.roles.includes("ADMIN") || user.roles.includes("EMPLOYEE")){
+    // if(user.roles.includes("ADMIN") || user.roles.includes("EMPLOYEE")){
       keycloak.accountManagement();
-    }
+    // }
   };
 
   useEffect(() => {

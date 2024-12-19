@@ -103,7 +103,7 @@ function CustomerOrders() {
           <div className="p-6">
             <div className="max-w-6xl mx-auto p-6">
               <div className="pb-4">
-                <Heading text="Gestion des Commandes" />
+                <Heading text="Vos Commandes" />
               </div>
               <div className="overflow-x-auto">
                 <table className="min-w-full bg-white shadow-lg border border-gray-200 rounded-lg">
